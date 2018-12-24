@@ -1,0 +1,673 @@
+	.file	"01_hello_SDL.cpp"
+	.section .rdata,"dr"
+__ZStL19piecewise_construct:
+	.space 1
+	.align 4
+__ZL12SCREEN_WIDTH:
+	.long	640
+	.align 4
+__ZL13SCREEN_HEIGHT:
+	.long	480
+	.globl	_gWindow
+	.bss
+	.align 4
+_gWindow:
+	.space 4
+	.globl	_gScreenSurface
+	.align 4
+_gScreenSurface:
+	.space 4
+	.globl	_gKeyPressSurfaces
+	.align 4
+_gKeyPressSurfaces:
+	.space 20
+	.globl	_gCurrentSurface
+	.align 4
+_gCurrentSurface:
+	.space 4
+	.section .rdata,"dr"
+	.align 4
+LC0:
+	.ascii "SDL could not initialize! SDL Error: %s\12\0"
+LC1:
+	.ascii "SDL Tutorial\0"
+	.align 4
+LC2:
+	.ascii "Window could not be created! SDL Error: %s\12\0"
+	.text
+	.globl	__Z4initv
+	.def	__Z4initv;	.scl	2;	.type	32;	.endef
+__Z4initv:
+LFB944:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$56, %esp
+	movb	$1, -9(%ebp)
+	movl	$32, (%esp)
+	call	_SDL_Init
+	shrl	$31, %eax
+	testb	%al, %al
+	je	L2
+	call	_SDL_GetError
+	movl	%eax, 4(%esp)
+	movl	$LC0, (%esp)
+	call	_printf
+	movb	$0, -9(%ebp)
+	jmp	L3
+L2:
+	movl	$4, 20(%esp)
+	movl	$480, 16(%esp)
+	movl	$640, 12(%esp)
+	movl	$536805376, 8(%esp)
+	movl	$536805376, 4(%esp)
+	movl	$LC1, (%esp)
+	call	_SDL_CreateWindow
+	movl	%eax, _gWindow
+	movl	_gWindow, %eax
+	testl	%eax, %eax
+	jne	L4
+	call	_SDL_GetError
+	movl	%eax, 4(%esp)
+	movl	$LC2, (%esp)
+	call	_printf
+	movb	$0, -9(%ebp)
+	jmp	L3
+L4:
+	movl	_gWindow, %eax
+	movl	%eax, (%esp)
+	call	_SDL_GetWindowSurface
+	movl	%eax, _gScreenSurface
+L3:
+	movzbl	-9(%ebp), %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE944:
+	.section .rdata,"dr"
+LC3:
+	.ascii "resources/press.bmp\0"
+LC4:
+	.ascii "Failed to load default image!\0"
+LC5:
+	.ascii "resources/up.bmp\0"
+LC6:
+	.ascii "Failed to load up image!\0"
+LC7:
+	.ascii "resources/down.bmp\0"
+LC8:
+	.ascii "Failed to load down image!\0"
+LC9:
+	.ascii "resources/left.bmp\0"
+LC10:
+	.ascii "Failed to load left image!\0"
+LC11:
+	.ascii "resources/right.bmp\0"
+LC12:
+	.ascii "Failed to load right image!\0"
+	.text
+	.globl	__Z9loadMediav
+	.def	__Z9loadMediav;	.scl	2;	.type	32;	.endef
+__Z9loadMediav:
+LFB945:
+	.cfi_startproc
+	.cfi_personality 0,___gxx_personality_v0
+	.cfi_lsda 0,LLSDA945
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	pushl	%ebx
+	subl	$164, %esp
+	.cfi_offset 3, -12
+	movb	$1, -9(%ebp)
+	leal	-121(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcEC1Ev
+	leal	-148(%ebp), %eax
+	leal	-121(%ebp), %edx
+	movl	%edx, 4(%esp)
+	movl	$LC3, (%esp)
+	movl	%eax, %ecx
+LEHB0:
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_
+LEHE0:
+	subl	$8, %esp
+	leal	-148(%ebp), %eax
+	movl	%eax, (%esp)
+LEHB1:
+	call	__Z11loadSurfaceNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+LEHE1:
+	movl	%eax, _gKeyPressSurfaces
+	leal	-148(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leal	-121(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	_gKeyPressSurfaces, %eax
+	testl	%eax, %eax
+	jne	L7
+	movl	$LC4, (%esp)
+	call	_puts
+	movb	$0, -9(%ebp)
+L7:
+	leal	-93(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcEC1Ev
+	leal	-120(%ebp), %eax
+	leal	-93(%ebp), %edx
+	movl	%edx, 4(%esp)
+	movl	$LC5, (%esp)
+	movl	%eax, %ecx
+LEHB2:
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_
+LEHE2:
+	subl	$8, %esp
+	leal	-120(%ebp), %eax
+	movl	%eax, (%esp)
+LEHB3:
+	call	__Z11loadSurfaceNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+LEHE3:
+	movl	%eax, _gKeyPressSurfaces+4
+	leal	-120(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leal	-93(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	_gKeyPressSurfaces+4, %eax
+	testl	%eax, %eax
+	jne	L8
+	movl	$LC6, (%esp)
+	call	_puts
+	movb	$0, -9(%ebp)
+L8:
+	leal	-65(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcEC1Ev
+	leal	-92(%ebp), %eax
+	leal	-65(%ebp), %edx
+	movl	%edx, 4(%esp)
+	movl	$LC7, (%esp)
+	movl	%eax, %ecx
+LEHB4:
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_
+LEHE4:
+	subl	$8, %esp
+	leal	-92(%ebp), %eax
+	movl	%eax, (%esp)
+LEHB5:
+	call	__Z11loadSurfaceNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+LEHE5:
+	movl	%eax, _gKeyPressSurfaces+8
+	leal	-92(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leal	-65(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	_gKeyPressSurfaces+8, %eax
+	testl	%eax, %eax
+	jne	L9
+	movl	$LC8, (%esp)
+	call	_puts
+	movb	$0, -9(%ebp)
+L9:
+	leal	-37(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcEC1Ev
+	leal	-64(%ebp), %eax
+	leal	-37(%ebp), %edx
+	movl	%edx, 4(%esp)
+	movl	$LC9, (%esp)
+	movl	%eax, %ecx
+LEHB6:
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_
+LEHE6:
+	subl	$8, %esp
+	leal	-64(%ebp), %eax
+	movl	%eax, (%esp)
+LEHB7:
+	call	__Z11loadSurfaceNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+LEHE7:
+	movl	%eax, _gKeyPressSurfaces+12
+	leal	-64(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leal	-37(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	_gKeyPressSurfaces+12, %eax
+	testl	%eax, %eax
+	jne	L10
+	movl	$LC10, (%esp)
+	call	_puts
+	movb	$0, -9(%ebp)
+L10:
+	leal	-10(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcEC1Ev
+	leal	-36(%ebp), %eax
+	leal	-10(%ebp), %edx
+	movl	%edx, 4(%esp)
+	movl	$LC11, (%esp)
+	movl	%eax, %ecx
+LEHB8:
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_
+LEHE8:
+	subl	$8, %esp
+	leal	-36(%ebp), %eax
+	movl	%eax, (%esp)
+LEHB9:
+	call	__Z11loadSurfaceNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+LEHE9:
+	movl	%eax, _gKeyPressSurfaces+16
+	leal	-36(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	leal	-10(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	_gKeyPressSurfaces+16, %eax
+	testl	%eax, %eax
+	jne	L11
+	movl	$LC12, (%esp)
+	call	_puts
+	movb	$0, -9(%ebp)
+L11:
+	movzbl	-9(%ebp), %eax
+	jmp	L33
+L24:
+	movl	%eax, %ebx
+	leal	-148(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	L14
+L23:
+	movl	%eax, %ebx
+L14:
+	leal	-121(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	%ebx, %eax
+	movl	%eax, (%esp)
+LEHB10:
+	call	__Unwind_Resume
+L26:
+	movl	%eax, %ebx
+	leal	-120(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	L16
+L25:
+	movl	%eax, %ebx
+L16:
+	leal	-93(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	%ebx, %eax
+	movl	%eax, (%esp)
+	call	__Unwind_Resume
+L28:
+	movl	%eax, %ebx
+	leal	-92(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	L18
+L27:
+	movl	%eax, %ebx
+L18:
+	leal	-65(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	%ebx, %eax
+	movl	%eax, (%esp)
+	call	__Unwind_Resume
+L30:
+	movl	%eax, %ebx
+	leal	-64(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	L20
+L29:
+	movl	%eax, %ebx
+L20:
+	leal	-37(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	%ebx, %eax
+	movl	%eax, (%esp)
+	call	__Unwind_Resume
+L32:
+	movl	%eax, %ebx
+	leal	-36(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+	jmp	L22
+L31:
+	movl	%eax, %ebx
+L22:
+	leal	-10(%ebp), %eax
+	movl	%eax, %ecx
+	call	__ZNSaIcED1Ev
+	movl	%ebx, %eax
+	movl	%eax, (%esp)
+	call	__Unwind_Resume
+LEHE10:
+L33:
+	movl	-4(%ebp), %ebx
+	leave
+	.cfi_restore 5
+	.cfi_restore 3
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE945:
+	.def	___gxx_personality_v0;	.scl	2;	.type	32;	.endef
+	.section	.gcc_except_table,"w"
+LLSDA945:
+	.byte	0xff
+	.byte	0xff
+	.byte	0x1
+	.uleb128 LLSDACSE945-LLSDACSB945
+LLSDACSB945:
+	.uleb128 LEHB0-LFB945
+	.uleb128 LEHE0-LEHB0
+	.uleb128 L23-LFB945
+	.uleb128 0
+	.uleb128 LEHB1-LFB945
+	.uleb128 LEHE1-LEHB1
+	.uleb128 L24-LFB945
+	.uleb128 0
+	.uleb128 LEHB2-LFB945
+	.uleb128 LEHE2-LEHB2
+	.uleb128 L25-LFB945
+	.uleb128 0
+	.uleb128 LEHB3-LFB945
+	.uleb128 LEHE3-LEHB3
+	.uleb128 L26-LFB945
+	.uleb128 0
+	.uleb128 LEHB4-LFB945
+	.uleb128 LEHE4-LEHB4
+	.uleb128 L27-LFB945
+	.uleb128 0
+	.uleb128 LEHB5-LFB945
+	.uleb128 LEHE5-LEHB5
+	.uleb128 L28-LFB945
+	.uleb128 0
+	.uleb128 LEHB6-LFB945
+	.uleb128 LEHE6-LEHB6
+	.uleb128 L29-LFB945
+	.uleb128 0
+	.uleb128 LEHB7-LFB945
+	.uleb128 LEHE7-LEHB7
+	.uleb128 L30-LFB945
+	.uleb128 0
+	.uleb128 LEHB8-LFB945
+	.uleb128 LEHE8-LEHB8
+	.uleb128 L31-LFB945
+	.uleb128 0
+	.uleb128 LEHB9-LFB945
+	.uleb128 LEHE9-LEHB9
+	.uleb128 L32-LFB945
+	.uleb128 0
+	.uleb128 LEHB10-LFB945
+	.uleb128 LEHE10-LEHB10
+	.uleb128 0
+	.uleb128 0
+LLSDACSE945:
+	.text
+	.globl	__Z5closev
+	.def	__Z5closev;	.scl	2;	.type	32;	.endef
+__Z5closev:
+LFB946:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$40, %esp
+	movl	$0, -12(%ebp)
+L36:
+	cmpl	$4, -12(%ebp)
+	jg	L35
+	movl	-12(%ebp), %eax
+	movl	_gKeyPressSurfaces(,%eax,4), %eax
+	movl	%eax, (%esp)
+	call	_SDL_FreeSurface
+	movl	-12(%ebp), %eax
+	movl	$0, _gKeyPressSurfaces(,%eax,4)
+	addl	$1, -12(%ebp)
+	jmp	L36
+L35:
+	movl	_gWindow, %eax
+	movl	%eax, (%esp)
+	call	_SDL_DestroyWindow
+	movl	$0, _gWindow
+	call	_SDL_Quit
+	nop
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE946:
+	.section .rdata,"dr"
+LC13:
+	.ascii "rb\0"
+	.align 4
+LC14:
+	.ascii "Unable to load image %s! SDL Error: %s\12\0"
+	.align 4
+LC15:
+	.ascii "Unable to optimize image %s! SDL Error: %s\12\0"
+	.text
+	.globl	__Z11loadSurfaceNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+	.def	__Z11loadSurfaceNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE;	.scl	2;	.type	32;	.endef
+__Z11loadSurfaceNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE:
+LFB947:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	pushl	%ebx
+	subl	$36, %esp
+	.cfi_offset 3, -12
+	movl	$0, -12(%ebp)
+	movl	8(%ebp), %ecx
+	call	__ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5c_strEv
+	movl	$LC13, 4(%esp)
+	movl	%eax, (%esp)
+	call	_SDL_RWFromFile
+	movl	$1, 4(%esp)
+	movl	%eax, (%esp)
+	call	_SDL_LoadBMP_RW
+	movl	%eax, -16(%ebp)
+	cmpl	$0, -16(%ebp)
+	jne	L38
+	call	_SDL_GetError
+	movl	%eax, %ebx
+	movl	8(%ebp), %ecx
+	call	__ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5c_strEv
+	movl	%ebx, 8(%esp)
+	movl	%eax, 4(%esp)
+	movl	$LC14, (%esp)
+	call	_printf
+	jmp	L39
+L38:
+	movl	_gScreenSurface, %eax
+	movl	4(%eax), %eax
+	movl	$0, 8(%esp)
+	movl	%eax, 4(%esp)
+	movl	-16(%ebp), %eax
+	movl	%eax, (%esp)
+	call	_SDL_ConvertSurface
+	movl	%eax, -12(%ebp)
+	cmpl	$0, -12(%ebp)
+	jne	L40
+	call	_SDL_GetError
+	movl	%eax, %ebx
+	movl	8(%ebp), %ecx
+	call	__ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5c_strEv
+	movl	%ebx, 8(%esp)
+	movl	%eax, 4(%esp)
+	movl	$LC15, (%esp)
+	call	_printf
+L40:
+	movl	-16(%ebp), %eax
+	movl	%eax, (%esp)
+	call	_SDL_FreeSurface
+L39:
+	movl	-12(%ebp), %eax
+	addl	$36, %esp
+	popl	%ebx
+	.cfi_restore 3
+	popl	%ebp
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE947:
+	.section .rdata,"dr"
+LC16:
+	.ascii "Failed to initialize!\0"
+LC17:
+	.ascii "Failed to load media!\0"
+	.text
+	.globl	_SDL_main
+	.def	_SDL_main;	.scl	2;	.type	32;	.endef
+_SDL_main:
+LFB948:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$88, %esp
+	call	__Z4initv
+	xorl	$1, %eax
+	testb	%al, %al
+	je	L43
+	movl	$LC16, (%esp)
+	call	_puts
+	jmp	L44
+L43:
+	call	__Z9loadMediav
+	xorl	$1, %eax
+	testb	%al, %al
+	je	L45
+	movl	$LC17, (%esp)
+	call	_puts
+	jmp	L44
+L45:
+	movb	$0, -9(%ebp)
+	movl	_gKeyPressSurfaces, %eax
+	movl	%eax, _gCurrentSurface
+L58:
+	cmpb	$0, -9(%ebp)
+	jne	L44
+L57:
+	leal	-72(%ebp), %eax
+	movl	%eax, (%esp)
+	call	_SDL_PollEvent
+	testl	%eax, %eax
+	setne	%al
+	testb	%al, %al
+	je	L47
+	movl	-72(%ebp), %eax
+	cmpl	$256, %eax
+	jne	L48
+	movb	$1, -9(%ebp)
+	jmp	L57
+L48:
+	movl	-72(%ebp), %eax
+	cmpl	$768, %eax
+	jne	L57
+	movl	-52(%ebp), %eax
+	cmpl	$1073741904, %eax
+	je	L51
+	cmpl	$1073741904, %eax
+	jg	L52
+	cmpl	$1073741903, %eax
+	je	L53
+	jmp	L50
+L52:
+	cmpl	$1073741905, %eax
+	je	L54
+	cmpl	$1073741906, %eax
+	jne	L50
+	movl	_gKeyPressSurfaces+4, %eax
+	movl	%eax, _gCurrentSurface
+	jmp	L49
+L54:
+	movl	_gKeyPressSurfaces+8, %eax
+	movl	%eax, _gCurrentSurface
+	jmp	L49
+L51:
+	movl	_gKeyPressSurfaces+12, %eax
+	movl	%eax, _gCurrentSurface
+	jmp	L49
+L53:
+	movl	_gKeyPressSurfaces+16, %eax
+	movl	%eax, _gCurrentSurface
+	jmp	L49
+L50:
+	movl	_gKeyPressSurfaces, %eax
+	movl	%eax, _gCurrentSurface
+	nop
+L49:
+	jmp	L57
+L47:
+	movl	_gScreenSurface, %edx
+	movl	_gCurrentSurface, %eax
+	movl	$0, 12(%esp)
+	movl	%edx, 8(%esp)
+	movl	$0, 4(%esp)
+	movl	%eax, (%esp)
+	call	_SDL_UpperBlit
+	movl	_gWindow, %eax
+	movl	%eax, (%esp)
+	call	_SDL_UpdateWindowSurface
+	jmp	L58
+L44:
+	call	__Z5closev
+	movl	$0, %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
+	ret
+	.cfi_endproc
+LFE948:
+	.ident	"GCC: (MinGW.org GCC-6.3.0-1) 6.3.0"
+	.def	_SDL_Init;	.scl	2;	.type	32;	.endef
+	.def	_SDL_GetError;	.scl	2;	.type	32;	.endef
+	.def	_printf;	.scl	2;	.type	32;	.endef
+	.def	_SDL_CreateWindow;	.scl	2;	.type	32;	.endef
+	.def	_SDL_GetWindowSurface;	.scl	2;	.type	32;	.endef
+	.def	__ZNSaIcEC1Ev;	.scl	2;	.type	32;	.endef
+	.def	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_;	.scl	2;	.type	32;	.endef
+	.def	__ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev;	.scl	2;	.type	32;	.endef
+	.def	__ZNSaIcED1Ev;	.scl	2;	.type	32;	.endef
+	.def	_puts;	.scl	2;	.type	32;	.endef
+	.def	__Unwind_Resume;	.scl	2;	.type	32;	.endef
+	.def	_SDL_FreeSurface;	.scl	2;	.type	32;	.endef
+	.def	_SDL_DestroyWindow;	.scl	2;	.type	32;	.endef
+	.def	_SDL_Quit;	.scl	2;	.type	32;	.endef
+	.def	__ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5c_strEv;	.scl	2;	.type	32;	.endef
+	.def	_SDL_RWFromFile;	.scl	2;	.type	32;	.endef
+	.def	_SDL_LoadBMP_RW;	.scl	2;	.type	32;	.endef
+	.def	_SDL_ConvertSurface;	.scl	2;	.type	32;	.endef
+	.def	_SDL_PollEvent;	.scl	2;	.type	32;	.endef
+	.def	_SDL_UpperBlit;	.scl	2;	.type	32;	.endef
+	.def	_SDL_UpdateWindowSurface;	.scl	2;	.type	32;	.endef

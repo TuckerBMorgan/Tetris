@@ -1,14 +1,14 @@
 #OBJS specifies which files to compile as part of the project 
-OBJS = 01_hello_SDL.cpp 
+OBJS = ./src/*.cpp 
 
 #CC specifies which compiler we're using 
 CC = g++
 
 #INCLUDE_PATHS specifies the additional include paths we'll need 
-INCLUDE_PATHS = -IC:\mingw_dev_lib\include\SDL2
+INCLUDE_PATHS = -IC:.\deps\SDL\include\SDL2 -IC:.\deps\SDLImage\include\SDL2 -ID:.\src\*.h
 
 #LIBRARY_PATHS specifies the additional library paths we'll need 
-LIBRARY_PATHS = -LC:\mingw_dev_lib\lib
+LIBRARY_PATHS = -LC:.\deps\SDL\lib -LC:.\deps\SDLImage\lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using 
 # -w suppresses all warnings 
@@ -16,10 +16,11 @@ LIBRARY_PATHS = -LC:\mingw_dev_lib\lib
 COMPILER_FLAGS = -w -W -isystem windows
 
 #LINKER_FLAGS specifies the libraries we're linking against 
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
 
 #OBJ_NAME specifies the name of our exectuable 
-OBJ_NAME = 01_hello_SDL 
+OBJ_NAME = tetris
 #This is the target that compiles our executable 
-all : $(OBJS) 
+all : $(OBJS)
 		$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+
