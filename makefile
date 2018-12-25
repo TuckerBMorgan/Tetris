@@ -4,6 +4,8 @@ OBJS = ./src/*.cpp
 #CC specifies which compiler we're using 
 CC = g++
 
+STD = -std=c++11
+
 #INCLUDE_PATHS specifies the additional include paths we'll need 
 INCLUDE_PATHS = -IC:.\deps\SDL\include\SDL2 -IC:.\deps\SDLImage\include\SDL2 -ID:.\src\*.h
 
