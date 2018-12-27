@@ -12,6 +12,12 @@ enum TetrisClusterType {
     T
 };
 
+enum TetrisAction {
+    Move,
+    Rotate,
+    Drop,//drop is the user asking for the block to be dropped as far as it can go
+    Fall//Fall is down one
+};
 
 struct TetrisBlock {
     int offset_x;
@@ -22,7 +28,7 @@ struct TetrisBlock {
 struct TetrisCluster {
     int center_x;
     int center_y;
-    TetrisClusterType tetrisClusterType;
+    TetrisClusterType tetris_cluster_type;
     TetrisBlock blocks[4];
 };
 
@@ -40,7 +46,7 @@ class TetrisBoard {
 
         void init();
         //returns true if the board state was updated, false otherwise
-        bool update(int direction);
+        bool update(TetrisAction action, int direction);
         TetrisClusterType getIndex(int x, int y);
 
     private:
@@ -49,9 +55,9 @@ class TetrisBoard {
         void rotateCurrentBlock(int direction);
 
         //we can copy a random element from this array and have our new block!
-        TetrisCluster preBuiltClusters[7];
-        TetrisClusterType currentBoard[28][10];
-        TetrisCluster currentCluster;
+        TetrisCluster pre_built_clusters[7];
+        TetrisClusterType current_board[28][10];
+        TetrisCluster current_cluster;
         int frame_count;
         int frame_threshold;
 };
