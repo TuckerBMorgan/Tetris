@@ -70,14 +70,14 @@ SDL_Texture* Engine::loadTexture(std::string path) {
 };
 
 void Engine::setupFrame() {
-    SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xF0, 0xFF, 0xFF);
-    SDL_RenderClear(this->renderer);
+    SDL_SetRenderDrawColor(this->renderer, 0x00, 0x00, 0x00, 0xFF);
+  //  SDL_RenderClear(this->renderer);
 
     SDL_Rect topLeftViewPort;
     topLeftViewPort.x = 0;
     topLeftViewPort.y = 0;
-    topLeftViewPort.w = SCREEN_WIDTH * 2;
-    topLeftViewPort.h = SCREEN_HEIGHT * 2;
+    topLeftViewPort.w = SCREEN_WIDTH;
+    topLeftViewPort.h = SCREEN_HEIGHT;
     SDL_RenderSetViewport(this->renderer, &topLeftViewPort); 
 }
 

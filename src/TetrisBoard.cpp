@@ -133,10 +133,29 @@ void TetrisBoard::init() {
     preBuiltClusters[5].blocks[3].is_center = false;
     preBuiltClusters[5].blocks[3].offset_x = 0;
     preBuiltClusters[5].blocks[3].offset_y = -3;
+
+    //T Cluster
+    preBuiltClusters[6].tetrisClusterType = TetrisClusterType::T;
+    preBuiltClusters[6].blocks[0].is_center = false;
+    preBuiltClusters[6].blocks[0].offset_x = -1;
+    preBuiltClusters[6].blocks[0].offset_y = 0;
+
+    preBuiltClusters[6].blocks[1].is_center = true;
+    preBuiltClusters[6].blocks[1].offset_x = 0;
+    preBuiltClusters[6].blocks[1].offset_y = 0;
+
+    preBuiltClusters[6].blocks[2].is_center = false;
+    preBuiltClusters[6].blocks[2].offset_x = 1;
+    preBuiltClusters[6].blocks[2].offset_y = 0;
+
+    preBuiltClusters[6].blocks[3].is_center = false;
+    preBuiltClusters[6].blocks[3].offset_x = 0;
+    preBuiltClusters[6].blocks[3].offset_y = -1;
+
     this->generateNextCluster();
 }
 
-bool TetrisBoard::update() {
+bool TetrisBoard::update(int direction) {
     if(this->frame_count % this->frame_threshold == 0) {
         int center_x = this->currentCluster.center_x;
         int center_y = this->currentCluster.center_y;
@@ -149,9 +168,15 @@ bool TetrisBoard::update() {
             this->currentBoard[lookup_y][lookup_x] =  TetrisClusterType::None;
         }
 
-        bool result = this->checkForOverlapAndAtEdge();
+        bool result = this->checkForOverlapAndAtEdge(direction);
         
         if(result == true) {
+            //need to write back the shape
+            for(int i = 0;i<4;i++) {
+                int lookup_x = this->currentCluster.center_x + this->currentCluster.blocks[i].offset_x;
+                int lookup_y = this->currentCluster.center_y + this->currentCluster.blocks[i].offset_y;
+                this->currentBoard[lookup_y][lookup_x] = this->currentCluster.tetrisClusterType;
+            }
             this->generateNextCluster();
         }
 
@@ -169,11 +194,17 @@ bool TetrisBoard::update() {
     return false;
 }
 
-bool TetrisBoard::checkForOverlapAndAtEdge() {
-    int new_x = this->currentCluster.center_x;
-    //default case we have not left or right, but we have moved down
-    int new_y = this->currentCluster.center_y - 1;
-
+bool TetrisBoard::checkForOverlapAndAtEdge(int direction) {
+    //if we have hit one of the arrow keys, this will shift us by one to the left or right
+    //but wont if we have not hit any key, or a key we dont care about for direction
+    int new_x = this->currentCluster.center_x + direction;
+    
+    //we only pass direction as 0 when we have not hit any key
+    //so instead preform the normal case of dropping the block one more case
+    int new_y = this->currentCluster.center_y;
+    if(direction == 0) {
+        new_y = this->currentCluster.center_y - 1;
+    }
     bool anyAtZero = false;
     bool isOverlapping = false;
 
@@ -181,6 +212,14 @@ bool TetrisBoard::checkForOverlapAndAtEdge() {
         
         int try_x = new_x + this->currentCluster.blocks[i].offset_x;
         int try_y = new_y + this->currentCluster.blocks[i].offset_y;
+
+        if(try_x < 0 || try_x > 9) {
+            //these are bad new points
+            //return false, this will not overwrite the old positions 
+            //no need to do extra work
+            return false;
+        }
+
         if(try_y == 0) {
             anyAtZero = true;
         }
@@ -214,6 +253,17 @@ bool TetrisBoard::checkForOverlapAndAtEdge() {
     return anyAtZero;
 }
 
+void TetrisBoard::rotateCurrentBlock(int direction) {
+    for(int i = 0;i<4;i++) {
+        int old_x = this->currentCluster.blocks[i].offset_x;
+        int old_y = this->currentCluster.blocks[i].offset_y;
+
+        //I THINK THIS IS THE RIGHT WAY, I HAVE NO FUCKING IDEA AHHH
+        this->currentCluster.blocks[i].offset_y = old_x * direction;
+        this->currentCluster.blocks[i].offset_x = old_y * direction;
+    }
+}
+
 TetrisClusterType TetrisBoard::getIndex(int x, int y) {
     return currentBoard[y][x];
 }
@@ -221,7 +271,7 @@ TetrisClusterType TetrisBoard::getIndex(int x, int y) {
 void TetrisBoard::generateNextCluster() {
     //random value of TetrisClusterType
     //Create new cluster 
-    int whichOne = rand() % 6;
+    int whichOne = rand() % 7;
     this->currentCluster = this->preBuiltClusters[whichOne];
     this->currentCluster.center_x = 5;
     this->currentCluster.center_y = 27;
