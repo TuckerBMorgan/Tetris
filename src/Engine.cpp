@@ -1,17 +1,18 @@
 #include "Engine.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <string>
 
 
 bool Engine::init() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("SDL could not init %s", SDL_GetError());
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+        printf("SDL could not init %s\n", SDL_GetError());
         return false;
     }
 
     if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-        printf("Error turning on linear texture filtering");
+        printf("Error turning on linear texture filtering\n");
     }
 
     this->window = SDL_CreateWindow( "Tetris", 
@@ -21,6 +22,7 @@ bool Engine::init() {
                                        SDL_WINDOW_SHOWN );
 
     if(this->window == NULL) {
+        printf("The window could not init\n");
         return false;
     }
 
@@ -35,6 +37,11 @@ bool Engine::init() {
 
     if(!(IMG_Init(imgFlags) & imgFlags)) {
         printf("SDL_Image could not initialize! SDL_Image Error %s\n", IMG_GetError());
+        return false;
+    }
+
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        printf("Audio did not init\n");
         return false;
     }
 

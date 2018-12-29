@@ -4,8 +4,6 @@
 
 
 void TetrisBoard::init() {
-    this->frame_count = 0;
-    this->frame_threshold = 1000;
     srand(time(NULL));
 
 
@@ -25,137 +23,112 @@ void TetrisBoard::init() {
     //S cluster
     pre_built_clusters[0].tetris_cluster_type = TetrisClusterType::S;
 
-    pre_built_clusters[0].blocks[0].is_center = false;
     pre_built_clusters[0].blocks[0].offset_x = -1;
     pre_built_clusters[0].blocks[0].offset_y = 0;
 
-    pre_built_clusters[0].blocks[1].is_center = true;
     pre_built_clusters[0].blocks[1].offset_x = 0;
     pre_built_clusters[0].blocks[1].offset_y = 0;
 
-    pre_built_clusters[0].blocks[2].is_center = false;
     pre_built_clusters[0].blocks[2].offset_x = 0;
     pre_built_clusters[0].blocks[2].offset_y = -1;
 
-    pre_built_clusters[0].blocks[3].is_center = false;
     pre_built_clusters[0].blocks[3].offset_x = 1;
     pre_built_clusters[0].blocks[3].offset_y = -1;
 
     //Z Cluster
     pre_built_clusters[1].tetris_cluster_type = TetrisClusterType::Z;
 
-    pre_built_clusters[1].blocks[0].is_center = false;
     pre_built_clusters[1].blocks[0].offset_x = 1;
     pre_built_clusters[1].blocks[0].offset_y = 0;
 
-    pre_built_clusters[1].blocks[1].is_center = true;
     pre_built_clusters[1].blocks[1].offset_x = 0;
     pre_built_clusters[1].blocks[1].offset_y = 0;
 
-    pre_built_clusters[1].blocks[2].is_center = false;
     pre_built_clusters[1].blocks[2].offset_x = 0;
     pre_built_clusters[1].blocks[2].offset_y = -1;
 
-    pre_built_clusters[1].blocks[3].is_center = false;
     pre_built_clusters[1].blocks[3].offset_x = -1;
     pre_built_clusters[1].blocks[3].offset_y = -1;
 
     //L Cluster
     pre_built_clusters[2].tetris_cluster_type = TetrisClusterType::L;
 
-    pre_built_clusters[2].blocks[0].is_center = false;
-    pre_built_clusters[2].blocks[0].offset_x = 0;
+    pre_built_clusters[2].blocks[0].offset_x = -1;
     pre_built_clusters[2].blocks[0].offset_y = 0;
 
-    pre_built_clusters[2].blocks[1].is_center = true;
     pre_built_clusters[2].blocks[1].offset_x = 0;
-    pre_built_clusters[2].blocks[1].offset_y = -1;
+    pre_built_clusters[2].blocks[1].offset_y = 0;
 
-    pre_built_clusters[2].blocks[2].is_center = false;
-    pre_built_clusters[2].blocks[2].offset_x = 0;
-    pre_built_clusters[2].blocks[2].offset_y = -2;
+    pre_built_clusters[2].blocks[2].offset_x = 1;
+    pre_built_clusters[2].blocks[2].offset_y = 0;
 
-    pre_built_clusters[2].blocks[3].is_center = false;
-    pre_built_clusters[2].blocks[3].offset_x = 1;
-    pre_built_clusters[2].blocks[3].offset_y = -2;
+    pre_built_clusters[2].blocks[3].offset_x = -1;
+    pre_built_clusters[2].blocks[3].offset_y = -1;
 
     //RevL Cluster
     pre_built_clusters[3].tetris_cluster_type = TetrisClusterType::RevL;
 
-    pre_built_clusters[3].blocks[0].is_center = false;
-    pre_built_clusters[3].blocks[0].offset_x = 0;
+    pre_built_clusters[3].blocks[0].offset_x = -1;
     pre_built_clusters[3].blocks[0].offset_y = 0;
 
-    pre_built_clusters[3].blocks[1].is_center = true;
     pre_built_clusters[3].blocks[1].offset_x = 0;
-    pre_built_clusters[3].blocks[1].offset_y = -1;
+    pre_built_clusters[3].blocks[1].offset_y = 0;
 
-    pre_built_clusters[3].blocks[2].is_center = false;
-    pre_built_clusters[3].blocks[2].offset_x = 0;
-    pre_built_clusters[3].blocks[2].offset_y = -2;
+    pre_built_clusters[3].blocks[2].offset_x = 1;
+    pre_built_clusters[3].blocks[2].offset_y = 0;
 
-    pre_built_clusters[3].blocks[3].is_center = false;
-    pre_built_clusters[3].blocks[3].offset_x = -1;
-    pre_built_clusters[3].blocks[3].offset_y = -2;
+    pre_built_clusters[3].blocks[3].offset_x = 1;
+    pre_built_clusters[3].blocks[3].offset_y = -1;
 
     //Sqaure Cluster
     pre_built_clusters[4].tetris_cluster_type = TetrisClusterType::Sqaure;
-    pre_built_clusters[4].blocks[0].is_center = false;
+
     pre_built_clusters[4].blocks[0].offset_x = 0;
     pre_built_clusters[4].blocks[0].offset_y = 0;
 
-    pre_built_clusters[4].blocks[1].is_center = true;
     pre_built_clusters[4].blocks[1].offset_x = 1;
     pre_built_clusters[4].blocks[1].offset_y = 0;
 
-    pre_built_clusters[4].blocks[2].is_center = false;
     pre_built_clusters[4].blocks[2].offset_x = 0;
     pre_built_clusters[4].blocks[2].offset_y = -1;
 
-    pre_built_clusters[4].blocks[3].is_center = false;
     pre_built_clusters[4].blocks[3].offset_x = 1;
     pre_built_clusters[4].blocks[3].offset_y = -1;
 
     //Line Cluster
     pre_built_clusters[5].tetris_cluster_type = TetrisClusterType::Line;
-    pre_built_clusters[5].blocks[0].is_center = false;
-    pre_built_clusters[5].blocks[0].offset_x = 0;
+
+    pre_built_clusters[5].blocks[0].offset_x = -1;
     pre_built_clusters[5].blocks[0].offset_y = 0;
 
-    pre_built_clusters[5].blocks[1].is_center = true;
     pre_built_clusters[5].blocks[1].offset_x = 0;
-    pre_built_clusters[5].blocks[1].offset_y = -1;
+    pre_built_clusters[5].blocks[1].offset_y = 0;
 
-    pre_built_clusters[5].blocks[2].is_center = false;
-    pre_built_clusters[5].blocks[2].offset_x = 0;
-    pre_built_clusters[5].blocks[2].offset_y = -2;
+    pre_built_clusters[5].blocks[2].offset_x = 1;
+    pre_built_clusters[5].blocks[2].offset_y = 0;
 
-    pre_built_clusters[5].blocks[3].is_center = false;
-    pre_built_clusters[5].blocks[3].offset_x = 0;
-    pre_built_clusters[5].blocks[3].offset_y = -3;
+    pre_built_clusters[5].blocks[3].offset_x = 2;
+    pre_built_clusters[5].blocks[3].offset_y = 0;
 
     //T Cluster
     pre_built_clusters[6].tetris_cluster_type = TetrisClusterType::T;
-    pre_built_clusters[6].blocks[0].is_center = false;
+
     pre_built_clusters[6].blocks[0].offset_x = -1;
     pre_built_clusters[6].blocks[0].offset_y = 0;
 
-    pre_built_clusters[6].blocks[1].is_center = true;
     pre_built_clusters[6].blocks[1].offset_x = 0;
     pre_built_clusters[6].blocks[1].offset_y = 0;
 
-    pre_built_clusters[6].blocks[2].is_center = false;
     pre_built_clusters[6].blocks[2].offset_x = 1;
     pre_built_clusters[6].blocks[2].offset_y = 0;
 
-    pre_built_clusters[6].blocks[3].is_center = false;
     pre_built_clusters[6].blocks[3].offset_x = 0;
     pre_built_clusters[6].blocks[3].offset_y = -1;
 
     this->generateNextCluster();
 }
 
-bool TetrisBoard::update(TetrisAction action, int direction) {
+void TetrisBoard::update(TetrisAction action, int direction) {
     int center_x = this->current_cluster.center_x;
     int center_y = this->current_cluster.center_y;
 
@@ -167,8 +140,21 @@ bool TetrisBoard::update(TetrisAction action, int direction) {
         this->current_board[lookup_y][lookup_x] = TetrisClusterType::None;
     }
 
-    bool result = this->checkForOverlapAndAtEdge(direction);
+    bool result;
+    switch (action) {
+        case TetrisAction::Fall:
+        case TetrisAction::Drop:
+        case TetrisAction::Move:
+            result = this->checkForOverlapAndAtEdge(direction);
+        break;
+
+        case TetrisAction::Rotate:
+            this->rotateCurrentBlock(direction);
+            result = false;
+        break;
+    }
     
+    //If we have hit the bottom or overlap, we need to write back the old position 
     if(result == true) {
         //need to write back the shape
         for(int i = 0;i<4;i++) {
@@ -176,22 +162,18 @@ bool TetrisBoard::update(TetrisAction action, int direction) {
             int lookup_y = this->current_cluster.center_y + this->current_cluster.blocks[i].offset_y;
             this->current_board[lookup_y][lookup_x] = this->current_cluster.tetris_cluster_type;
         }
+        //then create the new shape
         this->generateNextCluster();
+        this->checkForFullRows();
     }
-
+    //and reguardless write back either the new cluster, or writeback the old one
     for(int i = 0;i<4;i++) {
         int lookup_x = this->current_cluster.center_x + this->current_cluster.blocks[i].offset_x;
         int lookup_y = this->current_cluster.center_y + this->current_cluster.blocks[i].offset_y;
         this->current_board[lookup_y][lookup_x] = this->current_cluster.tetris_cluster_type;
     }
-    if(direction != 0) {
-        this->frame_count = 0;
-    }
-    return true;
 
-    this->frame_count+=1;
-
-    return false;
+    
 }
 
 bool TetrisBoard::checkForOverlapAndAtEdge(int direction) {
@@ -223,17 +205,9 @@ bool TetrisBoard::checkForOverlapAndAtEdge(int direction) {
         if(try_y == -1) {
             any_at_zero = true;
         }
-        if(this->current_board[try_y][try_x] != TetrisClusterType::None) {
+        else if(this->current_board[try_y][try_x] != TetrisClusterType::None) {
             is_overlapping = true;
         }
-    }
-
-    if(any_at_zero && !is_overlapping) {
-        //this means that is has gotten to the bottom of the board
-        //write back new position
-        this->current_cluster.center_x = new_x;
-        this->current_cluster.center_y = new_y;
-        return true;
     }
 
     if(!any_at_zero && is_overlapping) {
@@ -253,8 +227,40 @@ bool TetrisBoard::checkForOverlapAndAtEdge(int direction) {
     return any_at_zero;
 }
 
-void TetrisBoard::rotateCurrentBlock(int direction) {
+bool TetrisBoard::checkForFullRows() {
+    bool did_a_clear = false;
+    //for each row
+    for(int y = 0;y<28;y++) {
+        int row_count = 0;
+        //count a full row 
+        for(int x = 0;x<10;x++) {
+            if(this->current_board[y][x] != TetrisClusterType::None) {
+                row_count+=1;
+            }
+        }
+        //if it is all full
+        if(row_count == 10) {
+            //CLEAR THE ROW
+            for(int x = 0;x<10;x++) {
+                did_a_clear = true;
+                this->current_board[y][x] = TetrisClusterType::None;
+            }
 
+            //shifting the rows above the one we cleared
+            for(int up_y = y + 1;up_y<28;up_y++) {
+                for(int x = 0;x<10;x++){
+                    this->current_board[up_y - 1][x] = this->current_board[up_y][x];
+                    this->current_board[up_y][x] = TetrisClusterType::None;
+                }
+            }
+        }
+    }
+}
+
+void TetrisBoard::rotateCurrentBlock(int direction) {
+    if(this->current_cluster.tetris_cluster_type == TetrisClusterType::Sqaure) {
+        return;
+    }
     //we need to store them
     //so that way if all four pass we can just set
     //otherwise we discard
@@ -270,10 +276,10 @@ void TetrisBoard::rotateCurrentBlock(int direction) {
         possible_new_offsets[i][1] = this->current_cluster.blocks[i].offset_x;
 
         //this is a simple way of preforming a 90 degree rotation depending on the way in which you do it
-        if(direction == 1) {
+        if(direction == -1) {
             possible_new_offsets[i][0] *= -1;
         }
-        else if(direction == -1) {
+        else if(direction == 1) {
             possible_new_offsets[i][1] *= -1;
         }
 
@@ -287,9 +293,13 @@ void TetrisBoard::rotateCurrentBlock(int direction) {
         else if(test_y < 0 || test_y > 27) {
             any_fail = true;
         }
+        else if(this->current_board[test_y][test_x] != TetrisClusterType::None) {
+            any_fail = true;
+        }
     }
 
     if(!any_fail) {
+        //if we had no fail conditions write back the rotated posistions 
         for(int i = 0;i<4;i++) {
             this->current_cluster.blocks[i].offset_x = possible_new_offsets[i][0];
             this->current_cluster.blocks[i].offset_y = possible_new_offsets[i][1];
@@ -306,6 +316,7 @@ void TetrisBoard::generateNextCluster() {
     //Create new cluster 
     int whichOne = rand() % 7;
     this->current_cluster = this->pre_built_clusters[whichOne];
+    //mid top of the board
     this->current_cluster.center_x = 5;
     this->current_cluster.center_y = 27;
 }  

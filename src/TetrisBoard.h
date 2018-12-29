@@ -22,7 +22,6 @@ enum TetrisAction {
 struct TetrisBlock {
     int offset_x;
     int offset_y;
-    bool is_center;
 };
 
 struct TetrisCluster {
@@ -46,18 +45,17 @@ class TetrisBoard {
 
         void init();
         //returns true if the board state was updated, false otherwise
-        bool update(TetrisAction action, int direction);
+        void update(TetrisAction action, int direction);
         TetrisClusterType getIndex(int x, int y);
 
     private:
         void generateNextCluster();
         bool checkForOverlapAndAtEdge(int direction);
         void rotateCurrentBlock(int direction);
+        bool checkForFullRows();
 
         //we can copy a random element from this array and have our new block!
         TetrisCluster pre_built_clusters[7];
         TetrisClusterType current_board[28][10];
         TetrisCluster current_cluster;
-        int frame_count;
-        int frame_threshold;
 };
