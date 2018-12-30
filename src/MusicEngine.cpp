@@ -1,6 +1,14 @@
 #include <SDL_mixer.h>
+#include <stdint.h>
 #include "MusicEngine.h"
 
+
+//an experiment
+void musicProvider(void* udata, uint8_t* stream, int len) {
+    for(int i = 0;i<len;i++) {
+        stream[i] = 0xff;
+    }
+}
 
 void MusicEngine::init() {
     this->is_playing = false;
@@ -36,6 +44,7 @@ void MusicEngine::playMusic(SongId song_id) {
     }
     Mix_Music* song_to_play = this->loaded_music[song_id];
     Mix_PlayMusic(song_to_play, -1);
+    Mix_VolumeMusic(32);
     this->is_playing = true;
 }
 

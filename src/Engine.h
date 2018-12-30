@@ -18,12 +18,12 @@ class Engine {
 
         //Loads individual image as texture
         SDL_Texture* loadTexture( std::string path );
-
+        
     private:
     
         //The window we'll be rendering to
         SDL_Window* window;
-        //The window renderer
         SDL_Renderer* renderer;
         SDL_Texture* viewport_texture;
+        SDL_Texture* digits[10];
 };

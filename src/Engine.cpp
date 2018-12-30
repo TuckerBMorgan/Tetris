@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include <string>
 
 
@@ -44,6 +45,26 @@ bool Engine::init() {
         printf("Audio did not init\n");
         return false;
     }
+    if(TTF_Init() < 0) {
+        printf("Error initing TTF %s", TTF_GetError());
+        return false;
+    }
+    TTF_Font* font = TTF_OpenFont("resources/raleway.ttf", 28);
+	if(font == NULL) {
+		printf("Error creating the text font texture %s", TTF_GetError());
+        return false;
+	}
+
+	SDL_Color text_color;
+	text_color.r = 255;
+	text_color.g = 255;
+	text_color.b = 255;
+
+    char* digit[10] ={"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    for(int i = 0;i<10;i++) {
+    	SDL_Surface* text_surface = TTF_RenderText_Solid(font, digit[i], text_color);
+	    digits[i] = SDL_CreateTextureFromSurface(this->renderer, text_surface);
+    }
 
     return true;
 };
@@ -78,7 +99,6 @@ SDL_Texture* Engine::loadTexture(std::string path) {
 
 void Engine::setupFrame() {
     SDL_SetRenderDrawColor(this->renderer, 0x00, 0x00, 0x00, 0xFF);
-  //  SDL_RenderClear(this->renderer);
 
     SDL_Rect topLeftViewPort;
     topLeftViewPort.x = 0;
@@ -89,6 +109,12 @@ void Engine::setupFrame() {
 }
 
 void Engine::render() {
+    SDL_Rect renderQuad = {10, 10, 15, 30};
+    for(int i = 0;i<10;i++) {
+        SDL_RenderCopy(this->renderer, this->digits[i], NULL, &renderQuad);
+        renderQuad.x += 15;
+    }
+//    SDL_RenderCopy(this->renderer, this->text_texture, NULL, &renderQuad);
     SDL_RenderPresent( this->renderer );
 }
 

@@ -42,7 +42,7 @@ static constexpr Color BLOCK_COLORS[8] = {Color{255, 0, 0},
 
 class TetrisBoard {
     public:
-
+        int score;
         void init();
         //returns true if the board state was updated, false otherwise
         void update(TetrisAction action, int direction);
@@ -52,7 +52,7 @@ class TetrisBoard {
         void generateNextCluster();
         bool checkForOverlapAndAtEdge(int direction);
         void rotateCurrentBlock(int direction);
-        bool checkForFullRows();
+        int checkForFullRows();
 
         //we can copy a random element from this array and have our new block!
         TetrisCluster pre_built_clusters[7];

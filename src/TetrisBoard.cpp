@@ -153,27 +153,31 @@ void TetrisBoard::update(TetrisAction action, int direction) {
             result = false;
         break;
     }
-    
+
     //If we have hit the bottom or overlap, we need to write back the old position 
     if(result == true) {
+        
         //need to write back the shape
         for(int i = 0;i<4;i++) {
             int lookup_x = this->current_cluster.center_x + this->current_cluster.blocks[i].offset_x;
             int lookup_y = this->current_cluster.center_y + this->current_cluster.blocks[i].offset_y;
             this->current_board[lookup_y][lookup_x] = this->current_cluster.tetris_cluster_type;
         }
-        //then create the new shape
-        this->generateNextCluster();
-        this->checkForFullRows();
+
+        if(action == TetrisAction::Drop || action == TetrisAction::Fall) {
+            //if thiw was on the correct action 
+            //then create the new shape
+            this->generateNextCluster();
+            int cleared_rows = this->checkForFullRows();
+        }
+
     }
     //and reguardless write back either the new cluster, or writeback the old one
     for(int i = 0;i<4;i++) {
         int lookup_x = this->current_cluster.center_x + this->current_cluster.blocks[i].offset_x;
         int lookup_y = this->current_cluster.center_y + this->current_cluster.blocks[i].offset_y;
         this->current_board[lookup_y][lookup_x] = this->current_cluster.tetris_cluster_type;
-    }
-
-    
+    }    
 }
 
 bool TetrisBoard::checkForOverlapAndAtEdge(int direction) {
@@ -227,11 +231,12 @@ bool TetrisBoard::checkForOverlapAndAtEdge(int direction) {
     return any_at_zero;
 }
 
-bool TetrisBoard::checkForFullRows() {
-    bool did_a_clear = false;
+int TetrisBoard::checkForFullRows() {
+    int cleared_rows = 0;
+    int row_count = 0;
     //for each row
     for(int y = 0;y<28;y++) {
-        int row_count = 0;
+        row_count = 0;
         //count a full row 
         for(int x = 0;x<10;x++) {
             if(this->current_board[y][x] != TetrisClusterType::None) {
@@ -240,9 +245,9 @@ bool TetrisBoard::checkForFullRows() {
         }
         //if it is all full
         if(row_count == 10) {
+            cleared_rows += 1;
             //CLEAR THE ROW
             for(int x = 0;x<10;x++) {
-                did_a_clear = true;
                 this->current_board[y][x] = TetrisClusterType::None;
             }
 
@@ -253,11 +258,16 @@ bool TetrisBoard::checkForFullRows() {
                     this->current_board[up_y][x] = TetrisClusterType::None;
                 }
             }
+            //since we shifted all the rows down one, we have to also walk back the y counter, to catch the row
+            //above the one we just cleared
+            y -=1;
         }
     }
+    return cleared_rows;
 }
 
 void TetrisBoard::rotateCurrentBlock(int direction) {
+    //This is what I would call a straight HACK that I am doing because guess what it WORKS!
     if(this->current_cluster.tetris_cluster_type == TetrisClusterType::Sqaure) {
         return;
     }

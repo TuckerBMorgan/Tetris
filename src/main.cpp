@@ -5,6 +5,7 @@ and may not be redistributed without written permission.*/
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <stdio.h>
 #include <string>
@@ -22,7 +23,8 @@ void gameLoop() {
 
 int main(int argc, char* args[]) {
 	Engine* engine = new Engine();
-	
+
+
 	if (!engine->init()){
 		printf("There is this\n");
 		return 1;

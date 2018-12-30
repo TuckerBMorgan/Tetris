@@ -7,10 +7,10 @@ CC = g++
 STD = -std=c++11
 
 #INCLUDE_PATHS specifies the additional include paths we'll need mixer
-INCLUDE_PATHS = -IC:.\deps\SDL\include\SDL2 -IC:.\deps\SDLImage\include\SDL2 -IC:.\deps\SDLMixer\include\SDL2 -ID:.\src\*.h
+INCLUDE_PATHS = -IC:.\deps\SDL\include\SDL2 -IC:.\deps\SDLImage\include\SDL2 -IC:.\deps\SDLMixer\include\SDL2 -IC:.\deps\SDLTTF\include\SDL2 -ID:.\src\*.h
 
 #LIBRARY_PATHS specifies the additional library paths we'll need 
-LIBRARY_PATHS = -LC:.\deps\SDL\lib -LC:.\deps\SDLImage\lib -LC:.\deps\SDLMixer\lib
+LIBRARY_PATHS = -LC:.\deps\SDL\lib -LC:.\deps\SDLImage\lib -LC:.\deps\SDLMixer\lib -LC:.\deps\SDLTTF\lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using 
 # -w suppresses all warnings 
@@ -18,7 +18,7 @@ LIBRARY_PATHS = -LC:.\deps\SDL\lib -LC:.\deps\SDLImage\lib -LC:.\deps\SDLMixer\l
 COMPILER_FLAGS = -w -W -isystem windows
 
 #LINKER_FLAGS specifies the libraries we're linking against 
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 #OBJ_NAME specifies the name of our exectuable 
 OBJ_NAME = tetris
