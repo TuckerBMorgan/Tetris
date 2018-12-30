@@ -17,10 +17,6 @@ and may not be redistributed without written permission.*/
 #include "Texture.h"
 #include "TetrisBoard.h"
 
-void gameLoop() {
-
-}
-
 int main(int argc, char* args[]) {
 	Engine* engine = new Engine();
 
@@ -50,7 +46,6 @@ int main(int argc, char* args[]) {
 	music_engine->init();
 	SongId index = music_engine->loadSong("resources/Tetris.mp3");
 	music_engine->playMusic(index);
-//	music_engine->playCurrentMusic();
 	engine->setupFrame();
 
 	for(int y = 0;y<28;y++){
@@ -72,6 +67,7 @@ int main(int argc, char* args[]) {
 	int direction = 0;
 	int frame_count = 0;
 	int frame_timer = 100;
+	int previous_score = -1;
 	TetrisAction action;
 
 	while(!quit) {
@@ -126,6 +122,11 @@ int main(int argc, char* args[]) {
 		}
 		if(frame_count == frame_timer || action != Fall) {
 			tetris_board->update(action, direction);
+			int this_score = tetris_board->getScore();
+			if(this_score != previous_score) {
+				previous_score = this_score;
+				engine->renderScore(previous_score);
+			}
 			engine->setupFrame();
 			for(int y = 0;y<28;y++)
 			{
@@ -149,7 +150,9 @@ int main(int argc, char* args[]) {
 				}
 			}
 			engine->render();
-			frame_count = 0;
+			if(frame_count == frame_timer) {
+				frame_count = 0;
+			}
 		}
 		else {
 			frame_count += 1;

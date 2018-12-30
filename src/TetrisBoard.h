@@ -40,19 +40,31 @@ static constexpr Color BLOCK_COLORS[8] = {Color{255, 0, 0},
                                           Color{128, 0, 255},
                                           Color{255, 128, 255}};
 
+static constexpr int TETRIS_BASE_SCORE[4] = {
+    40,
+    100,
+    300,
+    1200
+};
+
 class TetrisBoard {
     public:
-        int score;
         void init();
         //returns true if the board state was updated, false otherwise
         void update(TetrisAction action, int direction);
         TetrisClusterType getIndex(int x, int y);
+        int getScore();
 
     private:
         void generateNextCluster();
         bool checkForOverlapAndAtEdge(int direction);
         void rotateCurrentBlock(int direction);
         int checkForFullRows();
+
+        //the current score of the board
+        int score;
+        //the level you are at
+        int level;
 
         //we can copy a random element from this array and have our new block!
         TetrisCluster pre_built_clusters[7];

@@ -15,6 +15,7 @@ class Engine {
         void setupFrame();
         void render();
         SDL_Renderer* getRenderer();
+        void renderScore(int score);
 
         //Loads individual image as texture
         SDL_Texture* loadTexture( std::string path );

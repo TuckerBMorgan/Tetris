@@ -6,7 +6,8 @@
 void TetrisBoard::init() {
     srand(time(NULL));
 
-
+    this->level = 1;
+    this->score = 0;
 
     //this can use some explanation
     //To make things simple we see each tetrinom/cluster as a single point(is_center)
@@ -169,6 +170,9 @@ void TetrisBoard::update(TetrisAction action, int direction) {
             //then create the new shape
             this->generateNextCluster();
             int cleared_rows = this->checkForFullRows();
+            if(cleared_rows != 0) {
+                score += (TETRIS_BASE_SCORE[cleared_rows - 1] * level);
+            }
         }
 
     }
@@ -315,6 +319,10 @@ void TetrisBoard::rotateCurrentBlock(int direction) {
             this->current_cluster.blocks[i].offset_y = possible_new_offsets[i][1];
         }
     }
+}
+
+int TetrisBoard::getScore() {
+    return this->score;
 }
 
 TetrisClusterType TetrisBoard::getIndex(int x, int y) {

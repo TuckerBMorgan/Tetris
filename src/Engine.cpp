@@ -59,6 +59,7 @@ bool Engine::init() {
 	text_color.r = 255;
 	text_color.g = 255;
 	text_color.b = 255;
+    text_color.a = 255;
 
     char* digit[10] ={"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     for(int i = 0;i<10;i++) {
@@ -108,13 +109,22 @@ void Engine::setupFrame() {
     SDL_RenderSetViewport(this->renderer, &topLeftViewPort); 
 }
 
-void Engine::render() {
-    SDL_Rect renderQuad = {10, 10, 15, 30};
+void Engine::renderScore(int score) {
+    SDL_Rect renderQuad = {150, 10, 15, 30};
+    SDL_Color black;
+    black.r = 0;
+    black.g = 0;
+    black.b = 0;
+    
     for(int i = 0;i<10;i++) {
-        SDL_RenderCopy(this->renderer, this->digits[i], NULL, &renderQuad);
-        renderQuad.x += 15;
+        int digit = score % 10;
+        score = score / 10;
+        SDL_RenderCopy(this->renderer, this->digits[digit], NULL, &renderQuad);
+        renderQuad.x -= 15;
     }
-//    SDL_RenderCopy(this->renderer, this->text_texture, NULL, &renderQuad);
+}
+
+void Engine::render() {
     SDL_RenderPresent( this->renderer );
 }
 
