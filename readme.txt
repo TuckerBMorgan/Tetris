@@ -8,6 +8,25 @@ This project is linked against:
 Windows:
 SDL2
 SDL2main
+SDLImage
+SDLMixer
+libFlac
+libFreeType
+libjpeg
+libmodplug
+libmpg
+libogg
+libopus
+libopusfile
+libpng16
+libtiff
+libvorbis
+libwebp
+libvorbis
+libvorbisfile
 
-*nix:
-SDL2
+Tasks Left:
+    Game class, to handle timing moving things outside of the main file
+    Text Rendering class, to handle all UI class
+    Next cluster
+    Drop cluster

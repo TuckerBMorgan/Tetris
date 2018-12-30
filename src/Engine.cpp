@@ -14,6 +14,7 @@ bool Engine::init() {
 
     if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
         printf("Error turning on linear texture filtering\n");
+        return false;
     }
 
     this->window = SDL_CreateWindow( "Tetris", 
@@ -31,6 +32,7 @@ bool Engine::init() {
 
     if(this->renderer == NULL) {
         printf("The renderer did not init, %s\n", SDL_GetError());
+        return false;
     }
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xF0, 0xFF, 0xFF);
 
@@ -59,7 +61,7 @@ bool Engine::init() {
 	text_color.r = 255;
 	text_color.g = 255;
 	text_color.b = 255;
-    text_color.a = 255;
+    text_color.a = 0;
 
     char* digit[10] ={"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     for(int i = 0;i<10;i++) {
@@ -67,16 +69,8 @@ bool Engine::init() {
 	    digits[i] = SDL_CreateTextureFromSurface(this->renderer, text_surface);
     }
 
-    return true;
-};
+    
 
-bool Engine::loadMedia() {
-
-    this->viewport_texture = loadTexture("resources/viewport.png");
-    if(this->viewport_texture == NULL) {
-        printf("Failed to load viewport image");
-        return false;
-    }
     return true;
 };
 
@@ -100,7 +94,7 @@ SDL_Texture* Engine::loadTexture(std::string path) {
 
 void Engine::setupFrame() {
     SDL_SetRenderDrawColor(this->renderer, 0x00, 0x00, 0x00, 0xFF);
-
+    SDL_RenderClear(this->renderer);
     SDL_Rect topLeftViewPort;
     topLeftViewPort.x = 0;
     topLeftViewPort.y = 0;
@@ -131,15 +125,3 @@ void Engine::render() {
 SDL_Renderer* Engine::getRenderer() {
     return this->renderer;
 }
-
-void Engine::close() {
-    SDL_DestroyTexture(this->viewport_texture);
-    SDL_DestroyRenderer(this->renderer);
-    SDL_DestroyWindow(this->window);
-    this->window = NULL;
-    this->renderer = NULL;
-    this->viewport_texture = NULL;
-
-    IMG_Quit();
-    SDL_Quit();
-};

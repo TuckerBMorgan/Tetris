@@ -10,8 +10,6 @@ const int SCREEN_HEIGHT = 640;
 class Engine {
     public:
         bool init();
-        bool loadMedia();
-        void close();
         void setupFrame();
         void render();
         SDL_Renderer* getRenderer();
@@ -27,4 +25,5 @@ class Engine {
         SDL_Renderer* renderer;
         SDL_Texture* viewport_texture;
         SDL_Texture* digits[10];
+        SDL_Texture* blackout_text;
 };

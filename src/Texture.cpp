@@ -30,6 +30,7 @@ void Texture::setAlpha(uint8_t a) {
 
 void Texture::render(int x, int y, Engine* engine) {
     SDL_Rect renderQuad = {x, y, this->width * this->scale, this->height * this->scale};
+    
     SDL_RenderCopy(engine->getRenderer(), this->texture, NULL, &renderQuad);
 }
 

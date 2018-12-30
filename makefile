@@ -4,6 +4,8 @@ OBJS = ./src/*.cpp
 #CC specifies which compiler we're using 
 CC = g++
 
+DEBUG = -ggdb
+
 STD = -std=c++11
 
 #INCLUDE_PATHS specifies the additional include paths we'll need mixer
@@ -23,6 +25,9 @@ LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 #OBJ_NAME specifies the name of our exectuable 
 OBJ_NAME = tetris
 #This is the target that compiles our executable 
-all : $(OBJS)
+release : $(OBJS)
 		$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+
+debug : $(OBJS)
+		$(CC) $(OBJS) $(DEBUG) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
