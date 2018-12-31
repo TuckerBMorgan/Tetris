@@ -14,9 +14,10 @@ class Engine {
         void render();
         SDL_Renderer* getRenderer();
         void renderScore(int score);
+        void renderLevel(int level);
 
         //Loads individual image as texture
-        SDL_Texture* loadTexture( std::string path );
+        SDL_Texture* loadTexture(std::string path);
         
     private:
     
@@ -24,6 +25,7 @@ class Engine {
         SDL_Window* window;
         SDL_Renderer* renderer;
         SDL_Texture* viewport_texture;
+        SDL_Texture* score_text;
+        SDL_Texture* level_text;
         SDL_Texture* digits[10];
-        SDL_Texture* blackout_text;
 };

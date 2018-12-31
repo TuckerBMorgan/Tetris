@@ -103,21 +103,35 @@ void GameController::update() {
     while(!this->quit) {
         direction = 0;
         this->handleInput();
+        //we have the || clause to allow for us to keep doing the update
+        //At the end we make sure to reset the counter only on falls, 
+        //so that way rotations, and moves keep the timer going
         if(this->frame_count == this->frame_timer || this->action != TetrisAction::Fall) {
+            
+            //first we have the board execute the actions
             this->board->update(this->action, this->direction);
+            
+
+            //after this it is all rendering
             this->engine->setupFrame();
+            //handle the UI, score and level
             this->engine->renderScore(this->board->getScore());
+
+            //go through each of the indexes
             for(int y = 0;y < BOARD_HEIGHT;y++) {
                 for(int x = 0;x < BOARD_WIDTH;x++) {
                     if(this->board->getIndex(x, y) == TetrisClusterType::None) {
+                        //if the piece is not an active cluster, render it gray
                         this->render_board[y][x]->setColor(Color{50, 50, 50});
                     } else {
+                        //else find the color of the cluster, and render the block as that
 						int color_choice = (int)this->board->getIndex(x, y) - 1;
 						this->render_board[y][x]->setColor(BLOCK_COLORS[color_choice]);
                     }
                     this->render_board[y][x]->render((SCREEN_WIDTH / 2 - 70) + x * 15, (SCREEN_HEIGHT / 2 + 150) - y * 15, engine);
                 }
             }
+            //present our frame!
             this->engine->render();
             if(this->frame_count == this->frame_timer) {
                 this->frame_count = 0;

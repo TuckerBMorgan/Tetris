@@ -7,16 +7,20 @@
 
 
 bool Engine::init() {
+
+    //start up SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         printf("SDL could not init %s\n", SDL_GetError());
         return false;
     }
 
+    //set how we want the renderer to work
     if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
         printf("Error turning on linear texture filtering\n");
         return false;
     }
 
+    
     this->window = SDL_CreateWindow( "Tetris", 
                                        SDL_WINDOWPOS_UNDEFINED, 
                                        SDL_WINDOWPOS_UNDEFINED, 
@@ -38,19 +42,25 @@ bool Engine::init() {
 
     int imgFlags = IMG_INIT_PNG;
 
+    //Init our image loading libs
     if(!(IMG_Init(imgFlags) & imgFlags)) {
         printf("SDL_Image could not initialize! SDL_Image Error %s\n", IMG_GetError());
         return false;
     }
 
+    //init our audio with a 44100 sample rate
     if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         printf("Audio did not init\n");
         return false;
     }
+
+    //init our text rendering libs
     if(TTF_Init() < 0) {
         printf("Error initing TTF %s", TTF_GetError());
         return false;
     }
+
+    //Load our font we are using
     TTF_Font* font = TTF_OpenFont("resources/raleway.ttf", 28);
 	if(font == NULL) {
 		printf("Error creating the text font texture %s", TTF_GetError());
@@ -61,15 +71,21 @@ bool Engine::init() {
 	text_color.r = 255;
 	text_color.g = 255;
 	text_color.b = 255;
-    text_color.a = 0;
 
+    //we are initing ten textures for each of the digits 
+    //this way we dont have to create a new texture each time update the score
+    //we just have to change which digit we are rendering in each position
     char* digit[10] ={"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     for(int i = 0;i<10;i++) {
     	SDL_Surface* text_surface = TTF_RenderText_Solid(font, digit[i], text_color);
 	    digits[i] = SDL_CreateTextureFromSurface(this->renderer, text_surface);
     }
 
-    
+    SDL_Surface* score_surface = TTF_RenderText_Solid(font, "Score:", text_color);
+    score_text = SDL_CreateTextureFromSurface(this->renderer, score_surface);    
+
+    SDL_Surface* level_surface = TTF_RenderText_Solid(font, "Level:", text_color);
+    level_text = SDL_CreateTextureFromSurface(this->renderer, level_surface);
 
     return true;
 };
@@ -93,29 +109,36 @@ SDL_Texture* Engine::loadTexture(std::string path) {
 };
 
 void Engine::setupFrame() {
+    //Set the clear color and clear the frame
     SDL_SetRenderDrawColor(this->renderer, 0x00, 0x00, 0x00, 0xFF);
     SDL_RenderClear(this->renderer);
-    SDL_Rect topLeftViewPort;
-    topLeftViewPort.x = 0;
-    topLeftViewPort.y = 0;
-    topLeftViewPort.w = SCREEN_WIDTH;
-    topLeftViewPort.h = SCREEN_HEIGHT;
-    SDL_RenderSetViewport(this->renderer, &topLeftViewPort); 
 }
 
 void Engine::renderScore(int score) {
-    SDL_Rect renderQuad = {150, 10, 15, 30};
+    SDL_Rect render_quad = {15, 15, 3.75 * 15, 20};
     SDL_Color black;
     black.r = 0;
     black.g = 0;
     black.b = 0;
-    
+
+    //render the text
+    SDL_RenderCopy(this->renderer, this->score_text, NULL, &render_quad);
+    SDL_Rect digit_quad = {150, 30, 15, 30};
+    //then the actual score
     for(int i = 0;i<10;i++) {
         int digit = score % 10;
         score = score / 10;
-        SDL_RenderCopy(this->renderer, this->digits[digit], NULL, &renderQuad);
-        renderQuad.x -= 15;
+        //we are moving from right to left rendering one digit at a time
+        SDL_RenderCopy(this->renderer, this->digits[digit], NULL, &digit_quad);
+        digit_quad.x -= 15;
     }
+}
+
+void Engine::renderLevel(int level) {
+    SDL_Rect on_the_right = {SCREEN_WIDTH * .80, 15, 3.75 * 15, 20};
+    SDL_RenderCopy(this->renderer, this->level_text, NULL, &on_the_right);
+    SDL_Rect below = {SCREEN_WIDTH * .80, 15, 15, 30};
+    SDL_RenderCopy(this->renderer, this->digits[level - 1], NULL, &below);    
 }
 
 void Engine::render() {

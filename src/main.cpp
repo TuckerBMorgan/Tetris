@@ -20,8 +20,6 @@ and may not be redistributed without written permission.*/
 #include "TetrisBoard.h"
 
 int main(int argc, char* args[]) {
-
-
 	GameController* game_controller = new GameController();
 	if(!game_controller->init()) {
 		printf("Was unable to init game_controller\n");
