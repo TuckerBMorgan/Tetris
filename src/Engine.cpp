@@ -137,8 +137,8 @@ void Engine::renderScore(int score) {
 void Engine::renderLevel(int level) {
     SDL_Rect on_the_right = {SCREEN_WIDTH * .80, 15, 3.75 * 15, 20};
     SDL_RenderCopy(this->renderer, this->level_text, NULL, &on_the_right);
-    SDL_Rect below = {SCREEN_WIDTH * .80, 15, 15, 30};
-    SDL_RenderCopy(this->renderer, this->digits[level - 1], NULL, &below);    
+    SDL_Rect below = {SCREEN_WIDTH * .80, 30, 15, 30};
+    SDL_RenderCopy(this->renderer, this->digits[level], NULL, &below);    
 }
 
 void Engine::render() {

@@ -172,6 +172,8 @@ void TetrisBoard::update(TetrisAction action, int direction) {
             int cleared_rows = this->checkForFullRows();
             if(cleared_rows != 0) {
                 score += (TETRIS_BASE_SCORE[cleared_rows - 1] * level);
+                this->cleared_rows += cleared_rows;
+                this->level = this->cleared_rows / 10 + 1;
             }
         }
 
@@ -323,6 +325,10 @@ void TetrisBoard::rotateCurrentBlock(int direction) {
 
 int TetrisBoard::getScore() {
     return this->score;
+}
+
+int TetrisBoard::getLevel() {
+    return this->level;
 }
 
 TetrisClusterType TetrisBoard::getIndex(int x, int y) {

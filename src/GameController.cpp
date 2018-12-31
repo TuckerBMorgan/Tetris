@@ -4,8 +4,9 @@
 bool GameController::init() {
     this->frame_count = 0;
     this->frame_timer = 100;
-
+    this->previous_level = 1;
     this->quit = false;
+    this->previous_level = 1;
 
     //Init SDL, Rendering stuff
     this->engine = new Engine();
@@ -116,6 +117,7 @@ void GameController::update() {
             this->engine->setupFrame();
             //handle the UI, score and level
             this->engine->renderScore(this->board->getScore());
+            this->engine->renderLevel(this->board->getLevel());
 
             //go through each of the indexes
             for(int y = 0;y < BOARD_HEIGHT;y++) {
@@ -140,6 +142,19 @@ void GameController::update() {
         else {
             this->frame_count += 1;
         }
+
+        //Check if we have gone up in level
+        int new_level = this->board->getLevel();
+        if(new_level != this->previous_level) {
+            //reduce the drop frame amount
+            this->frame_count = 0;
+            this->frame_timer = 100 - ((new_level - 1) * 10 );
+            if(frame_timer < 10) {
+                frame_timer = 10;
+            }
+            this->previous_level = new_level;
+        }
+
         this->action = TetrisAction::Fall;
         Sleep(1);
     }

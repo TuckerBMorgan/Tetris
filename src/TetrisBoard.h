@@ -54,6 +54,7 @@ class TetrisBoard {
         void update(TetrisAction action, int direction);
         TetrisClusterType getIndex(int x, int y);
         int getScore();
+        int getLevel();
 
     private:
         void generateNextCluster();
@@ -66,8 +67,10 @@ class TetrisBoard {
         //the level you are at
         int level;
 
+        int cleared_rows;
         //we can copy a random element from this array and have our new block!
         TetrisCluster pre_built_clusters[7];
         TetrisClusterType current_board[28][10];
         TetrisCluster current_cluster;
+
 };
