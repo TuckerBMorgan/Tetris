@@ -22,12 +22,15 @@ COMPILER_FLAGS = -w -W -isystem windows
 #LINKER_FLAGS specifies the libraries we're linking against 
 LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
+#this is to avoid having to include MinGw libs with every executable
+STATIC_LINK_FLAGS = -static-libgcc -static-libstdc++
+
 #OBJ_NAME specifies the name of our exectuable 
 OBJ_NAME = tetris
 #This is the target that compiles our executable 
 release : $(OBJS)
-		$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+		$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(STATIC_LINK_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
 debug : $(OBJS)
-		$(CC) $(OBJS) $(DEBUG) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+		$(CC) $(OBJS) $(DEBUG) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(STATIC_LINK_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
