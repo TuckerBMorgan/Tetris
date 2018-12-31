@@ -19,7 +19,6 @@ bool Engine::init() {
         printf("Error turning on linear texture filtering\n");
         return false;
     }
-
     
     this->window = SDL_CreateWindow( "Tetris", 
                                        SDL_WINDOWPOS_UNDEFINED, 
@@ -80,10 +79,12 @@ bool Engine::init() {
     	SDL_Surface* text_surface = TTF_RenderText_Solid(font, digit[i], text_color);
 	    digits[i] = SDL_CreateTextureFromSurface(this->renderer, text_surface);
     }
-
+    text_color.r = 100;
+    text_color.g = 100;
     SDL_Surface* score_surface = TTF_RenderText_Solid(font, "Score:", text_color);
     score_text = SDL_CreateTextureFromSurface(this->renderer, score_surface);    
-
+    text_color.r = 255;
+    text_color.b = 0;
     SDL_Surface* level_surface = TTF_RenderText_Solid(font, "Level:", text_color);
     level_text = SDL_CreateTextureFromSurface(this->renderer, level_surface);
 

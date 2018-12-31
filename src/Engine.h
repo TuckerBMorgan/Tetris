@@ -27,5 +27,6 @@ class Engine {
         SDL_Texture* viewport_texture;
         SDL_Texture* score_text;
         SDL_Texture* level_text;
+        SDL_Texture* cleared_text;
         SDL_Texture* digits[10];
 };

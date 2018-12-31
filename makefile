@@ -3,6 +3,7 @@ OBJS = ./src/*.cpp
 
 #CC specifies which compiler we're using 
 CC = g++
+NVCC = nvcc
 
 DEBUG = -ggdb
 
@@ -34,3 +35,5 @@ release : $(OBJS)
 debug : $(OBJS)
 		$(CC) $(OBJS) $(DEBUG) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(STATIC_LINK_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
+gpu : $(OBJS)
+		$(NVCC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(STATIC_LINK_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)

@@ -8,6 +8,7 @@ void TetrisBoard::init() {
 
     this->level = 1;
     this->score = 0;
+    this->cleared_lines = 0;
 
     //this can use some explanation
     //To make things simple we see each tetrinom/cluster as a single point(is_center)
@@ -157,7 +158,6 @@ void TetrisBoard::update(TetrisAction action, int direction) {
 
     //If we have hit the bottom or overlap, we need to write back the old position 
     if(result == true) {
-        
         //need to write back the shape
         for(int i = 0;i<4;i++) {
             int lookup_x = this->current_cluster.center_x + this->current_cluster.blocks[i].offset_x;
@@ -169,14 +169,13 @@ void TetrisBoard::update(TetrisAction action, int direction) {
             //if thiw was on the correct action 
             //then create the new shape
             this->generateNextCluster();
-            int cleared_rows = this->checkForFullRows();
-            if(cleared_rows != 0) {
-                score += (TETRIS_BASE_SCORE[cleared_rows - 1] * level);
-                this->cleared_rows += cleared_rows;
-                this->level = this->cleared_rows / 10 + 1;
+            int cleared_lines = this->checkForFullRows();
+            if(cleared_lines != 0) {
+                score += (TETRIS_BASE_SCORE[cleared_lines - 1] * level);
+                this->cleared_lines += cleared_lines;
+                this->level = this->cleared_lines / 10 + 1;
             }
         }
-
     }
     //and reguardless write back either the new cluster, or writeback the old one
     for(int i = 0;i<4;i++) {
@@ -238,7 +237,7 @@ bool TetrisBoard::checkForOverlapAndAtEdge(int direction) {
 }
 
 int TetrisBoard::checkForFullRows() {
-    int cleared_rows = 0;
+    int cleared_lines = 0;
     int row_count = 0;
     //for each row
     for(int y = 0;y<28;y++) {
@@ -251,7 +250,7 @@ int TetrisBoard::checkForFullRows() {
         }
         //if it is all full
         if(row_count == 10) {
-            cleared_rows += 1;
+            cleared_lines += 1;
             //CLEAR THE ROW
             for(int x = 0;x<10;x++) {
                 this->current_board[y][x] = TetrisClusterType::None;
@@ -269,7 +268,7 @@ int TetrisBoard::checkForFullRows() {
             y -=1;
         }
     }
-    return cleared_rows;
+    return cleared_lines;
 }
 
 void TetrisBoard::rotateCurrentBlock(int direction) {
@@ -329,6 +328,10 @@ int TetrisBoard::getScore() {
 
 int TetrisBoard::getLevel() {
     return this->level;
+}
+
+int TetrisBoard::getLinesCleared() {
+    return this->cleared_lines;
 }
 
 TetrisClusterType TetrisBoard::getIndex(int x, int y) {
