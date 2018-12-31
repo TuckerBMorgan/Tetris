@@ -15,7 +15,7 @@ bool GameController::init() {
         return false;
     }
 
-    //init the music engine 
+    //init the music engine
     this->music_engine = new MusicEngine();
     this->music_engine->init();
 	SongId index = this->music_engine->loadSong("resources/Tetris.mp3");
