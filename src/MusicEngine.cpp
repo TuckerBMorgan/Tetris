@@ -1,19 +1,26 @@
 #include <SDL_mixer.h>
 #include <stdint.h>
 #include "MusicEngine.h"
-
+#include <math.h>
 
 //an experiment
 void musicProvider(void* udata, uint8_t* stream, int len) {
-    for(int i = 0;i<len;i++) {
-        stream[i] = 0xff;
-    }
+    int i, pos=*(int*)udata;
+
+    // fill buffer with...uh...music...
+    for(i=0; i<len; i++)
+        stream[i]=(i) * (cos(pos * 10.f) + 1.0);
+    // set udata for next time
+    pos+=len;
+    *(int*)udata=pos;
 }
 
 void MusicEngine::init() {
+    this->music_counter = 0;
     this->is_playing = false;
     this->number_of_loaded_songs = 0;
     this->loaded_music = new Mix_Music*[DEFAULT_NUMBER_OF_LOADED_SONGS];
+  //  Mix_HookMusic(musicProvider, &music_counter);
 }
 
 SongId MusicEngine::loadSong(std::string path) {
@@ -44,7 +51,7 @@ void MusicEngine::playMusic(SongId song_id) {
     }
     Mix_Music* song_to_play = this->loaded_music[song_id];
     Mix_PlayMusic(song_to_play, -1);
-    Mix_VolumeMusic(32);
+    Mix_VolumeMusic(1);
     this->is_playing = true;
 }
 

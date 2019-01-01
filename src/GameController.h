@@ -37,6 +37,7 @@ class GameController {
         MusicEngine* music_engine;
         //The board shown 
         Texture* render_board[BOARD_HEIGHT][BOARD_WIDTH];
+        Texture* next_cluster_display[4][4];
 
         //Current action to give to the TetrisBoard
         TetrisAction action;

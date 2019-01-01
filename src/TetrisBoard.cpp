@@ -8,6 +8,7 @@ void TetrisBoard::init() {
 
     this->level = 1;
     this->score = 0;
+    this->cleared_rows = 0;
 
     //this can use some explanation
     //To make things simple we see each tetrinom/cluster as a single point(is_center)
@@ -125,6 +126,12 @@ void TetrisBoard::init() {
 
     pre_built_clusters[6].blocks[3].offset_x = 0;
     pre_built_clusters[6].blocks[3].offset_y = -1;
+
+
+    //bootstrap this
+    int whichOne = rand() % 7;
+    this->next_cluster = this->pre_built_clusters[whichOne];
+
 
     this->generateNextCluster();
 }
@@ -331,15 +338,24 @@ int TetrisBoard::getLevel() {
     return this->level;
 }
 
+int TetrisBoard::getClearedRows() {
+    return this->cleared_rows;
+}
+
 TetrisClusterType TetrisBoard::getIndex(int x, int y) {
-    return current_board[y][x];
+    return this->current_board[y][x];
+}
+
+TetrisCluster TetrisBoard::getNextCluster() {
+    return this->next_cluster;
 }
 
 void TetrisBoard::generateNextCluster() {
     //random value of TetrisClusterType
     //Create new cluster 
     int whichOne = rand() % 7;
-    this->current_cluster = this->pre_built_clusters[whichOne];
+    this->current_cluster = this->next_cluster;
+    this->next_cluster = this->pre_built_clusters[whichOne];
     //mid top of the board
     this->current_cluster.center_x = 5;
     this->current_cluster.center_y = 27;

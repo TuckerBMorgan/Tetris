@@ -55,6 +55,8 @@ class TetrisBoard {
         TetrisClusterType getIndex(int x, int y);
         int getScore();
         int getLevel();
+        int getClearedRows();
+        TetrisCluster getNextCluster();
 
     private:
         void generateNextCluster();
@@ -72,5 +74,6 @@ class TetrisBoard {
         TetrisCluster pre_built_clusters[7];
         TetrisClusterType current_board[28][10];
         TetrisCluster current_cluster;
+        TetrisCluster next_cluster;
 
 };

@@ -81,11 +81,22 @@ bool Engine::init() {
 	    digits[i] = SDL_CreateTextureFromSurface(this->renderer, text_surface);
     }
 
+    text_color.r = 100;
+    text_color.g = 100;
     SDL_Surface* score_surface = TTF_RenderText_Solid(font, "Score:", text_color);
     score_text = SDL_CreateTextureFromSurface(this->renderer, score_surface);    
 
+    text_color.r = 255;
+    text_color.g = 0;
+    text_color.b = 0;
     SDL_Surface* level_surface = TTF_RenderText_Solid(font, "Level:", text_color);
     level_text = SDL_CreateTextureFromSurface(this->renderer, level_surface);
+
+    text_color.r = 255;
+    text_color.g = 0;
+    text_color.b = 0;
+    SDL_Surface* row_surface = TTF_RenderText_Solid(font, "Cleared Rows:", text_color);
+    row_text = SDL_CreateTextureFromSurface(this->renderer, row_surface);
 
     return true;
 };
@@ -138,7 +149,24 @@ void Engine::renderLevel(int level) {
     SDL_Rect on_the_right = {SCREEN_WIDTH * .80, 15, 3.75 * 15, 20};
     SDL_RenderCopy(this->renderer, this->level_text, NULL, &on_the_right);
     SDL_Rect below = {SCREEN_WIDTH * .80, 30, 15, 30};
+    if(level > 9) {
+        level = 9;//Dont have a way a of rendering over one digit at the moment
+        //TODO: Tucker
+    }
     SDL_RenderCopy(this->renderer, this->digits[level], NULL, &below);    
+}
+
+void Engine::renderRows(int rows) {
+    SDL_Rect on_the_right = {15, 75, 10 * 15, 20};
+    SDL_RenderCopy(this->renderer, this->row_text, NULL, &on_the_right);
+
+    SDL_Rect below = {150, 90, 15, 30};
+    while(rows > 0) {
+        int digit = rows % 10;
+        SDL_RenderCopy(this->renderer, this->digits[digit], NULL, &below);
+        below.x -= 15;
+        rows = rows / 10;
+    }
 }
 
 void Engine::render() {

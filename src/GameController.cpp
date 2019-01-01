@@ -48,6 +48,17 @@ bool GameController::init() {
 		}
 	}
 
+    for(int y = 0;y<4;y++) {
+        for(int x = 0;x<4;x++) {
+            this->next_cluster_display[y][x] = new Texture();
+            this->next_cluster_display[y][x]->loadFromFile("resources/block.png", engine);
+            this->next_cluster_display[y][x]->setScale(0.25);
+            this->next_cluster_display[y][x]->setColor(Color{50, 50, 50});
+            this->next_cluster_display[y][x]->setAlpha(255);
+            this->next_cluster_display[y][x]->render(SCREEN_WIDTH * .80, SCREEN_HEIGHT * .30, engine);
+        }
+    }
+
     this->engine->render();
     return true;
 }
@@ -118,6 +129,7 @@ void GameController::update() {
             //handle the UI, score and level
             this->engine->renderScore(this->board->getScore());
             this->engine->renderLevel(this->board->getLevel());
+            this->engine->renderRows(this->board->getClearedRows());
 
             //go through each of the indexes
             for(int y = 0;y < BOARD_HEIGHT;y++) {
@@ -133,6 +145,25 @@ void GameController::update() {
                     this->render_board[y][x]->render((SCREEN_WIDTH / 2 - 70) + x * 15, (SCREEN_HEIGHT / 2 + 150) - y * 15, engine);
                 }
             }
+            for(int y = 0;y<4;y++) {
+                for(int x = 0;x<4;x++) {
+                    this->next_cluster_display[y][x]->setColor(Color{50, 50, 50});
+                }
+            }
+
+            TetrisCluster next_cluster = this->board->getNextCluster();
+            for(int i = 0;i<4;i++) {
+                int x_offset = next_cluster.blocks[i].offset_x;
+                int y_offset = next_cluster.blocks[i].offset_y;
+                Color color = BLOCK_COLORS[(int)next_cluster.tetris_cluster_type - 1];
+                this->next_cluster_display[2 + y_offset][1 + x_offset]->setColor(color);
+            }
+            for(int y = 0;y<4;y++) {
+                for(int x = 0;x<4;x++) {
+                    this->next_cluster_display[y][x]->render(SCREEN_WIDTH * .80 + (x * 15), SCREEN_HEIGHT * .30 + (y * 15), engine);
+                }
+            }
+
             //present our frame!
             this->engine->render();
             if(this->frame_count == this->frame_timer) {

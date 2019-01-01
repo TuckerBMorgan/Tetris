@@ -22,4 +22,5 @@ class MusicEngine {
         int number_of_loaded_songs;
         bool is_playing;
         Mix_Music** loaded_music;
+        int music_counter;
 };
